@@ -3,11 +3,14 @@ from gui.add_training_view import AddTrainingView
 from gui.analysis_view import AnalysisView
 from gui.history_view import HistoryView
 from gui.settings_view import SettingsView
+from config import current_theme
 
 class MainWindow:
     def __init__(self):
-        ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("blue")
+        # Motyw główny
+        ctk.set_default_color_theme("dark-blue")
+        ctk.set_appearance_mode(current_theme)
+
 
         self.app = ctk.CTk()
         self.app.title("Aplikacja do analizy trafień")

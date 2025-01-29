@@ -19,7 +19,7 @@ class AddTrainingView(ctk.CTkFrame):
         self.message_label.pack(pady=10)
 
         # Formularz
-        self.form_frame = ctk.CTkFrame(self)
+        self.form_frame = ctk.CTkFrame(self, corner_radius=10, border_width=2)
         self.form_frame.pack(pady=10, padx=10, fill="x")
 
         # Pola formularza
@@ -28,7 +28,7 @@ class AddTrainingView(ctk.CTkFrame):
         self.target_combobox = self.create_combobox("Typ tarczy:", ["Klasyczna", "Sylwetka", "Dynamiczna"], 2)
 
         # Wczytywanie zdjęcia
-        self.image_label = ctk.CTkLabel(self, text="Brak wczytanego obrazu")
+        self.image_label = ctk.CTkLabel(self, text="", width=400, height=400)
         self.image_label.pack(pady=10)
         self.upload_button = ctk.CTkButton(self, text="Wczytaj zdjęcie tarczy", command=self.upload_image)
         self.upload_button.pack(pady=10)
@@ -58,9 +58,15 @@ class AddTrainingView(ctk.CTkFrame):
         filepath = filedialog.askopenfilename(title="Wybierz obraz tarczy", filetypes=filetypes)
         if filepath:
             self.image_path = filepath
-            photo = load_image(filepath)
+
+            # Pobierz wymiary etykiety
+            label_width = self.image_label.winfo_width() or 400  # Domyślnie 400, jeśli 0
+            label_height = self.image_label.winfo_height() or 400  # Domyślnie 400, jeśli 0
+
+            # Wczytaj obraz dopasowany do wymiarów etykiety
+            photo = load_image(filepath, max_width=label_width, max_height=label_height)
             self.image_label.configure(image=photo, text="")
-            self.image_label.image = photo
+            self.image_label.image = photo  # Zachowanie referencji
 
     def save_training(self):
         distance = self.distance_entry.get()
@@ -94,6 +100,14 @@ class AddTrainingView(ctk.CTkFrame):
         self.image_path = None
         self.image_label.configure(image=None, text="Brak wczytanego obrazu")
 
-        # Walidacja wpisanych danych - do usuniecia
-        last_training = get_last_training()
-        print("Ostatni zapis:", last_training)
+        #sprawdzić walidację i dodać funkcjonalność
+        # def validate_training_data(distance, shots, image_path):
+        #     errors = []
+        #     if not distance.isdigit() or int(distance) <= 0 or int(distance) > 1000:
+        #         errors.append("Dystans musi być liczbą z zakresu 1-1000.")
+        #     if not shots.isdigit() or int(shots) <= 0 or int(shots) > 100:
+        #         errors.append("Liczba strzałów musi być liczbą z zakresu 1-100.")
+        #     if not image_path:
+        #         errors.append("Zdjęcie tarczy musi zostać wczytane.")
+        #     return errors
+
