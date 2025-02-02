@@ -5,6 +5,14 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="customtkinter")
 
 if __name__ == "__main__":
-    initialize_database()
-    app = MainWindow()
-    app.run()
+    try:
+        initialize_database()
+    except Exception as e:
+        print("Błąd przy inicjalizacji bazy danych:", e)
+        exit(1)
+
+    try:
+        app = MainWindow()
+        app.run()
+    except Exception as e:
+        print("Wystąpił błąd podczas działania aplikacji:", e)

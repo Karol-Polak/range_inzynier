@@ -67,6 +67,7 @@ def fetch_all_trainings(db_path="database/results.db"):
     connection.close()
     return results
 
+
 def get_last_training(db_path="database/results.db"):
     """Pobiera ostatnio zapisany trening z bazy danych."""
     connection = sqlite3.connect(db_path)
@@ -80,3 +81,21 @@ def get_last_training(db_path="database/results.db"):
     result = cursor.fetchone()
     connection.close()
     return result
+
+
+def clear_database(db_path="database/results.db"):
+    """
+    Usuwa wszystkie rekordy z tabeli trainings i resetuje licznik id,
+    dzięki czemu przy następnym zapisie pierwszy rekord otrzyma id 1.
+    """
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+
+    # Usunięcie rekordów z tabeli trainings
+    cursor.execute("DELETE FROM trainings")
+
+    # Resetowanie licznika AUTOINCREMENT w tabeli trainings
+    cursor.execute("DELETE FROM sqlite_sequence WHERE name='trainings'")
+
+    connection.commit()
+    connection.close()

@@ -14,7 +14,7 @@ class MainWindow:
 
         self.app = ctk.CTk()
         self.app.title("Aplikacja do analizy trafień")
-        self.app.geometry("900x800")
+        self.app.geometry("1050x950")
 
         # Nagłówek
         header_label = ctk.CTkLabel(self.app, text="Aplikacja do analizy trafień", font=("Arial", 24))

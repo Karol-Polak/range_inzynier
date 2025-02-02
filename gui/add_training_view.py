@@ -4,9 +4,9 @@ from logic.validation import validate_training_data
 from logic.data_manager import save_training_to_db
 from logic.image_handler import load_image
 from logic.image_handler import save_image_locally
-
 # import do walidacji wpisanych danych
 from logic.data_manager import get_last_training
+
 
 class AddTrainingView(ctk.CTkFrame):
     def __init__(self, parent):
@@ -27,15 +27,19 @@ class AddTrainingView(ctk.CTkFrame):
         self.shots_entry = self.create_entry("Liczba strzałów:", 1)
         self.target_combobox = self.create_combobox("Typ tarczy:", ["Klasyczna", "Sylwetka", "Dynamiczna"], 2)
 
-        # Wczytywanie zdjęcia
-        self.image_label = ctk.CTkLabel(self, text="", width=400, height=400)
-        self.image_label.pack(pady=10)
-        self.upload_button = ctk.CTkButton(self, text="Wczytaj zdjęcie tarczy", command=self.upload_image)
-        self.upload_button.pack(pady=10)
+        # Nowa ramka dla przycisków - umieszczona nad etykietą obrazu
+        self.button_frame = ctk.CTkFrame(self)
+        self.button_frame.pack(pady=10)
 
-        # Przycisk zapisu
-        self.save_button = ctk.CTkButton(self, text="Zapisz trening", command=self.save_training)
-        self.save_button.pack(pady=20)
+        self.upload_button = ctk.CTkButton(self.button_frame, text="Wczytaj zdjęcie tarczy", command=self.upload_image)
+        self.upload_button.pack(side="left", padx=5)
+
+        self.save_button = ctk.CTkButton(self.button_frame, text="Zapisz trening", command=self.save_training)
+        self.save_button.pack(side="left", padx=5)
+
+        # Etykieta obrazu - teraz poniżej przycisków
+        self.image_label = ctk.CTkLabel(self, text="Brak wczytanego obrazu", width=400, height=400)
+        self.image_label.pack(pady=10)
 
         self.image_path = None
 
@@ -59,14 +63,20 @@ class AddTrainingView(ctk.CTkFrame):
         if filepath:
             self.image_path = filepath
 
-            # Pobierz wymiary etykiety
-            label_width = self.image_label.winfo_width() or 400  # Domyślnie 400, jeśli 0
-            label_height = self.image_label.winfo_height() or 400  # Domyślnie 400, jeśli 0
+            # Ustal maksymalne wymiary – możesz je dostosować
+            max_width = 800
+            max_height = 800
 
-            # Wczytaj obraz dopasowany do wymiarów etykiety
-            photo = load_image(filepath, max_width=label_width, max_height=label_height)
+            # Pobierz obraz oraz jego nowe wymiary
+            photo, new_size = load_image(filepath, max_width, max_height)
+
+            # Ustaw obraz w etykiecie
             self.image_label.configure(image=photo, text="")
-            self.image_label.image = photo  # Zachowanie referencji
+            self.image_label.image = photo  # zachowaj referencję
+
+            # Upewnij się, że etykieta nie ma ustawionych sztywnych wymiarów,
+            # lub ewentualnie ustaw ją na wymiary przeskalowanego obrazu
+            self.image_label.configure(width=new_size[0], height=new_size[1])
 
     def save_training(self):
         distance = self.distance_entry.get()

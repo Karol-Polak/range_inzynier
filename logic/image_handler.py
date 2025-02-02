@@ -5,7 +5,8 @@ from PIL import Image
 
 
 def load_image(filepath, max_width, max_height):
-    """Ładuje obraz i skaluje go proporcjonalnie do podanych maksymalnych wymiarów."""
+    """Ładuje obraz i skaluje go proporcjonalnie do podanych maksymalnych wymiarów.
+    Zwraca: (CTkImage, (new_width, new_height))"""
     img = Image.open(filepath)
     img_width, img_height = img.size
 
@@ -13,8 +14,12 @@ def load_image(filepath, max_width, max_height):
     scale = min(max_width / img_width, max_height / img_height)
     new_size = (int(img_width * scale), int(img_height * scale))
 
-    img = img.resize(new_size, Image.Resampling.LANCZOS)
-    return CTkImage(img)
+    # Przeskalowanie obrazu
+    img_resized = img.resize(new_size, Image.Resampling.LANCZOS)
+    # Upewnij się, że przekazujesz nowy rozmiar do CTkImage
+    return CTkImage(img_resized, size=new_size), new_size
+
+
 
 
 
