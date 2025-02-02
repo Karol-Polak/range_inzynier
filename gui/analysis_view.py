@@ -192,7 +192,8 @@ class AnalysisView(ctk.CTkFrame):
             messagebox.showerror("Błąd", "Najpierw wczytaj obraz!")
             return
 
-        detected_hits = detect_hits(self.image_path)
+        detected_hits = detect_hits(self.image_path,
+                                    debug=False)  # Można zmienić na True, aby zobaczyć podgląd w OpenCV
 
         if detected_hits:
             self.hit_coordinates = detected_hits
