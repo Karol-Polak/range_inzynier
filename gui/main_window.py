@@ -3,6 +3,7 @@ from gui.add_training_view import AddTrainingView
 from gui.analysis_view import AnalysisView
 from gui.history_view import HistoryView
 from gui.settings_view import SettingsView
+from gui.ready_training_view import ReadyTrainingView
 from config import current_theme
 
 class MainWindow:
@@ -38,6 +39,7 @@ class MainWindow:
             ("Dodaj trening", AddTrainingView),
             ("Analiza wyników", AnalysisView),
             ("Historia treningów", HistoryView),
+            ("Gotowe treningi", ReadyTrainingView),
             ("Ustawienia", SettingsView),
         ]
 

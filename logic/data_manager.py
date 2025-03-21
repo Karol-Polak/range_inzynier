@@ -3,7 +3,6 @@ import os
 
 def initialize_database(db_path="database/results.db"):
     """Inicjalizuje bazę danych, tworząc tabelę, jeśli nie istnieje."""
-    # Sprawdź, czy folder bazy danych istnieje
     folder = os.path.dirname(db_path)
     if not os.path.exists(folder):
         os.makedirs(folder)

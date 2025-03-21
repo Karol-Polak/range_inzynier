@@ -4,7 +4,6 @@ from logic.validation import validate_training_data
 from logic.data_manager import save_training_to_db
 from logic.image_handler import load_image
 from logic.image_handler import save_image_locally
-# import do walidacji wpisanych danych
 from logic.data_manager import get_last_training
 
 
@@ -63,19 +62,17 @@ class AddTrainingView(ctk.CTkFrame):
         if filepath:
             self.image_path = filepath
 
-            # Ustal maksymalne wymiary – możesz je dostosować
-            max_width = 800
-            max_height = 800
+            # maksymalne wymiary
+            # max_width = 800
+            # max_height = 800
 
-            # Pobierz obraz oraz jego nowe wymiary
-            photo, new_size = load_image(filepath, max_width, max_height)
+            # obraz oraz jego nowe wymiary
+            photo, new_size = load_image(filepath) #max_width, max_height)
 
-            # Ustaw obraz w etykiecie
+            # obraz w etykiecie
             self.image_label.configure(image=photo, text="")
-            self.image_label.image = photo  # zachowaj referencję
+            self.image_label.image = photo
 
-            # Upewnij się, że etykieta nie ma ustawionych sztywnych wymiarów,
-            # lub ewentualnie ustaw ją na wymiary przeskalowanego obrazu
             self.image_label.configure(width=new_size[0], height=new_size[1])
 
     def save_training(self):

@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from logic.data_manager import clear_database
 from tkinter import messagebox
-from config import current_theme
+#from config import current_theme
 
 class SettingsView(ctk.CTkFrame):
     def __init__(self, parent):
@@ -37,5 +37,5 @@ class SettingsView(ctk.CTkFrame):
         # Wyświetlenie okna potwierdzenia
         result = messagebox.askyesno("Potwierdzenie", "Czy na pewno chcesz usunąć wszystkie dane treningowe?")
         if result:
-            clear_database()  # Wywołanie funkcji czyszczenia bazy
+            clear_database()
             messagebox.showinfo("Sukces", "Baza danych została wyczyszczona.")

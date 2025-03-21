@@ -16,7 +16,7 @@ def load_image(filepath, max_width, max_height):
 
     # Przeskalowanie obrazu
     img_resized = img.resize(new_size, Image.Resampling.LANCZOS)
-    # Upewnij się, że przekazujesz nowy rozmiar do CTkImage
+    # przekazujesz nowy rozmiar do CTkImage
     return CTkImage(img_resized, size=new_size), new_size
 
 
@@ -30,7 +30,7 @@ def save_image_locally(image_path):
         os.makedirs(target_folder)
 
     # Kopiowanie obrazu
-    file_name = os.path.basename(image_path)  # Pobranie nazwy pliku
+    file_name = os.path.basename(image_path)
     target_path = os.path.join(target_folder, file_name)
     shutil.copy(image_path, target_path)
 
